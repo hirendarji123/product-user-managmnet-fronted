@@ -1,25 +1,71 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import ProtectedRoute from "./Auth/ProtectedRoute";
+import Login from "./Components/Public/Login";
+import PageNotFound from "./Components/Public/PageNotFount";
+import ProductForm from "./Components/Private/ProductForm";
+import ProductGrid from "./Components/Private/ProductGrid";
+import NavbarCommon from "./Components/Private/Navbar";
+import UserList from "./Components/Private/UserList";
+import UserForm from "./Components/Private/UserForm";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route
+            path="/create-product"
+            element={
+              <ProtectedRoute>
+                <NavbarCommon />
+                <ProductForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/edit-product"
+            element={
+              <ProtectedRoute>
+                <NavbarCommon />
+                <ProductForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/products"
+            element={
+              <ProtectedRoute>
+                <NavbarCommon />
+                <ProductGrid />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <ProtectedRoute>
+                <NavbarCommon />
+                <UserList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-user"
+            element={
+              <ProtectedRoute>
+                <NavbarCommon />
+                <UserForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;
